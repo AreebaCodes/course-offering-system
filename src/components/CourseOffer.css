@@ -1,0 +1,362 @@
+/* CourseOffer — Course allocation grid
+   Palette: deep navy header, slate background, muted green (permanent) / amber (visiting) accents */
+
+.co-wrapper {
+	--co-navy: #1b2a4a;
+	--co-navy-light: #24365c;
+	--co-bg: #f7f8fa;
+	--co-card: #ffffff;
+	--co-border: #e2e5eb;
+	--co-text: #1f2937;
+	--co-text-muted: #6b7280;
+	--co-permanent: #2d6a4f;
+	--co-permanent-bg: #e7f3ed;
+	--co-visiting: #a3720a;
+	--co-visiting-bg: #fbf1de;
+	--co-danger: #b3261e;
+	--co-danger-bg: #fbeceb;
+
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Inter", Roboto, sans-serif;
+	color: var(--co-text);
+	max-width: 100%;
+}
+
+/* ---- Top bar: semester switch + legend + clear all ---- */
+
+.co-topbar {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	flex-wrap: wrap;
+	gap: 12px;
+	background: var(--co-navy);
+	border-radius: 10px 10px 0 0;
+	padding: 14px 18px;
+}
+
+.co-semester-toggle {
+	display: inline-flex;
+	background: var(--co-navy-light);
+	border-radius: 999px;
+	padding: 3px;
+	gap: 2px;
+}
+
+.co-semester-btn {
+	appearance: none;
+	border: none;
+	background: transparent;
+	color: #c9d3e6;
+	font-size: 13.5px;
+	font-weight: 600;
+	letter-spacing: 0.02em;
+	padding: 7px 18px;
+	border-radius: 999px;
+	cursor: pointer;
+	transition: background 0.15s ease, color 0.15s ease;
+}
+
+.co-semester-btn:hover {
+	color: #ffffff;
+}
+
+.co-semester-btn.active {
+	background: #ffffff;
+	color: var(--co-navy);
+}
+
+.co-legend {
+	display: flex;
+	align-items: center;
+	gap: 16px;
+	font-size: 12.5px;
+	color: #c9d3e6;
+}
+
+.co-legend-item {
+	display: inline-flex;
+	align-items: center;
+	gap: 6px;
+}
+
+.co-dot {
+	width: 8px;
+	height: 8px;
+	border-radius: 50%;
+	display: inline-block;
+	flex-shrink: 0;
+}
+
+.co-dot.permanent {
+	background: #6fcf9e;
+}
+
+.co-dot.visiting {
+	background: #e8bf6a;
+}
+
+.co-clear-btn {
+	appearance: none;
+	border: 1px solid rgba(255, 255, 255, 0.25);
+	background: transparent;
+	color: #f2c9c6;
+	font-size: 13px;
+	font-weight: 600;
+	padding: 7px 14px;
+	border-radius: 7px;
+	cursor: pointer;
+	transition: background 0.15s ease, border-color 0.15s ease;
+}
+
+.co-actions {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+}
+
+.co-save-btn {
+	appearance: none;
+	border: none;
+	background: #6fcf9e;
+	color: #0f2e21;
+	font-size: 13px;
+	font-weight: 700;
+	padding: 7px 16px;
+	border-radius: 7px;
+	cursor: pointer;
+	transition: background 0.15s ease, opacity 0.15s ease;
+}
+
+.co-save-btn:hover {
+	background: #86dcb0;
+}
+
+.co-save-btn:disabled {
+	opacity: 0.6;
+	cursor: default;
+}
+
+.co-save-msg {
+	font-size: 12.5px;
+	font-weight: 600;
+}
+
+.co-save-msg.success {
+	color: #8fe3b8;
+}
+
+.co-save-msg.error {
+	color: #f2a6a1;
+}
+
+.co-clear-btn:hover {
+	background: rgba(179, 38, 30, 0.25);
+	border-color: rgba(255, 255, 255, 0.4);
+}
+
+/* ---- Card / table shell ---- */
+
+.co-card {
+	background: var(--co-card);
+	border: 1px solid var(--co-border);
+	border-top: none;
+	border-radius: 0 0 10px 10px;
+	overflow: hidden;
+	box-shadow: 0 1px 2px rgba(16, 24, 40, 0.04);
+}
+
+.co-table {
+	width: 100%;
+	border-collapse: collapse;
+	font-size: 13.5px;
+}
+
+.co-table th,
+.co-table td {
+	border: none;
+	border-bottom: 1px solid var(--co-border);
+}
+
+/* Semester group header row */
+.co-sem-row th {
+	background: #eef1f6;
+	color: var(--co-navy);
+	font-weight: 700;
+	font-size: 12.5px;
+	text-transform: uppercase;
+	letter-spacing: 0.04em;
+	padding: 9px 10px;
+	text-align: center;
+	border-top: 1px solid var(--co-border);
+}
+
+.co-sem-row .co-sem-label {
+	text-align: left;
+	text-transform: none;
+	letter-spacing: 0;
+	font-size: 13px;
+}
+
+/* Course rows */
+.co-course-row td {
+	padding: 6px 10px;
+	vertical-align: middle;
+}
+
+.co-course-row:nth-child(even) {
+	background: #fbfbfc;
+}
+
+.co-course-row:hover {
+	background: #f2f5fb;
+}
+
+.co-idx {
+	text-align: center;
+	color: var(--co-text-muted);
+	width: 36px;
+	font-variant-numeric: tabular-nums;
+}
+
+.co-title-cell {
+	min-width: 260px;
+}
+
+.co-code {
+	font-weight: 700;
+	color: var(--co-navy);
+	margin-right: 6px;
+}
+
+.co-crhr {
+	color: var(--co-text-muted);
+	font-size: 12px;
+}
+
+/* Section select cells */
+.co-sec-cell {
+	width: 92px;
+	text-align: center;
+	padding: 5px 6px;
+}
+
+.co-select {
+	width: 100%;
+	appearance: none;
+	background: #fff;
+	border: 1px solid var(--co-border);
+	border-radius: 6px;
+	padding: 5px 22px 5px 8px;
+	font-size: 12.5px;
+	color: var(--co-text);
+	cursor: pointer;
+	background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'><path d='M1 1l4 4 4-4' stroke='%236b7280' stroke-width='1.4' fill='none' stroke-linecap='round' stroke-linejoin='round'/></svg>");
+	background-repeat: no-repeat;
+	background-position: right 8px center;
+	transition: border-color 0.12s ease, box-shadow 0.12s ease;
+}
+
+.co-select:hover {
+	border-color: #b7c0d1;
+}
+
+.co-select:focus {
+	outline: none;
+	border-color: var(--co-navy);
+	box-shadow: 0 0 0 3px rgba(27, 42, 74, 0.12);
+}
+
+.co-select.co-select-filled {
+	border-color: #c9d3e6;
+	background-color: #f5f7fb;
+	font-weight: 600;
+}
+
+.co-select.co-select-empty {
+	color: var(--co-text-muted);
+	font-style: italic;
+}
+
+/* Section column header letters */
+.co-sec-header {
+	width: 92px;
+	text-align: center;
+	color: var(--co-navy);
+	font-weight: 700;
+	font-size: 12.5px;
+}
+
+/* Empty state when no eligible faculty mapped */
+.co-empty-note {
+	font-size: 11px;
+	color: var(--co-text-muted);
+	text-align: center;
+	margin-top: 2px;
+}
+
+/* Confirm-clear modal */
+.co-modal-overlay {
+	position: fixed;
+	inset: 0;
+	background: rgba(17, 24, 39, 0.45);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	z-index: 50;
+}
+
+.co-modal {
+	background: #fff;
+	border-radius: 12px;
+	padding: 22px 24px;
+	max-width: 360px;
+	width: 90%;
+	box-shadow: 0 20px 40px rgba(16, 24, 40, 0.2);
+}
+
+.co-modal h3 {
+	margin: 0 0 8px;
+	font-size: 16px;
+	color: var(--co-text);
+}
+
+.co-modal p {
+	margin: 0 0 18px;
+	font-size: 13.5px;
+	color: var(--co-text-muted);
+	line-height: 1.5;
+}
+
+.co-modal-actions {
+	display: flex;
+	justify-content: flex-end;
+	gap: 10px;
+}
+
+.co-modal-btn {
+	appearance: none;
+	border: none;
+	border-radius: 7px;
+	padding: 8px 16px;
+	font-size: 13.5px;
+	font-weight: 600;
+	cursor: pointer;
+}
+
+.co-modal-btn.cancel {
+	background: #f1f2f5;
+	color: var(--co-text);
+}
+
+.co-modal-btn.cancel:hover {
+	background: #e6e8ec;
+}
+
+.co-modal-btn.confirm {
+	background: var(--co-danger);
+	color: #fff;
+}
+
+.co-modal-btn.confirm:hover {
+	background: #96201a;
+}
