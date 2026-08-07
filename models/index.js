@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import "dotenv/config";
 import { Curriculum } from "./Curriculum.js";
 import { Faculty } from "./Faculty.js";
 import { Area } from "./Area.js";
@@ -8,12 +9,10 @@ import { CourseFaculty } from "./CourseFaculty.js";
 import { User } from "./User.js";
 import { Registration } from "./Registration.js";
 
-
+const MONGO_URI = process.env.MONGO_URI || "mongodb://127.0.0.1:27017/semester";
 
 (async () => {
-    //await mongoose.connect(`mongodb://localhost:27017/?readPreference=primary&ssl=false&directConnection=true`);
-    await mongoose.connect(`mongodb://127.0.0.1:27017/semester`);
-    //await mongoose.connect(`mongodb+srv://dbUser:dbUser@cluster0.enbv6.mongodb.net/pharmacy`);
+    await mongoose.connect(MONGO_URI);
 })();
 
 export const db = {

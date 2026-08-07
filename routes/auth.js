@@ -1,14 +1,14 @@
 import express from 'express'
 import bcrypt from 'bcryptjs'
 import jwt from 'jsonwebtoken'
+import "dotenv/config"
 import { db } from "../models/index.js"
 
 const router = express.Router();
 
-// In a real deployment, move this to an environment variable.
-const JWT_SECRET = "semester-app-dev-secret-change-me";
+const JWT_SECRET = process.env.JWT_SECRET || "semester-app-dev-secret-change-me";
 
-// Students sign themselves up. Admin accounts are seeded separately (seedAdmin.js), not via this route.
+
 router.post('/auth/signup', async (req, res) => {
     try {
         const { name, email, password } = req.body;
@@ -70,7 +70,7 @@ router.post('/auth/login', async (req, res) => {
     }
 });
 
-// Middleware: verifies the JWT on protected routes. Attaches req.user = { uid, role }.
+
 export const requireAuth = (req, res, next) => {
     const header = req.headers.authorization || "";
     const token = header.startsWith("Bearer ") ? header.slice(7) : null;
